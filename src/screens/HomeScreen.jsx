@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useLayoutEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, TextInput, Image } from 'react-native';
 import { getPaisesAll } from '../services/PaisesAPI';
 import Card from '../components/Card';
@@ -38,23 +38,21 @@ const HomeScreen = () => {
     getPaises();
   }, []);
 
+  //añadimos el filtro de búsqueda de paises a la barra superior
+  useLayoutEffect(() => { 
+    navigation.setOptions({
+      headerSearchBarOptions: {
+        placeholder: "Search",
+        onChangeText: (event) => {
+          handleSearchTermChange(event.nativeEvent.text)
+        },
+      }
+    });
+  }, [navigation]);
+
   return (
-    <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-      <View style={styles.searchContainer}> 
-        <Image  //hacemos un contenedor para hacer la búsqueda, dentro colocamos la lupa para que se identifique mejor
-          source={require('../img/lupa.png')}
-          style={styles.searchIcon}
-        />
-        <TextInput //y hacemos una caja de búsqueda para los paises
-          style={styles.searchInput}
-          placeholder="Buscar por nombre de país"
-          value={searchTerm}
-          onChangeText={handleSearchTermChange}
-        />
-      </View>
-     
       <FlatList //con la flatlist hacemos una lista con todos los países y dibujamos en ella los card
-        style={styles.list}
+        style={[styles.list, { backgroundColor: theme.backgroundColor }]}
         data={paises.filter((pais) =>
           pais.name.common.toLowerCase().includes(searchTerm.toLowerCase())
         )}
@@ -76,30 +74,15 @@ const HomeScreen = () => {
           }
         }}
       />
-    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   list: {
     flex: 1,
     width: "100%",
     padding: 10,
     marginTop: 10
-  },
-  searchInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor:"white",
-    borderRadius: 5,
-    margin: 10,
-    padding: 10,
   },
   image: {
     width: 80,
@@ -118,6 +101,16 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18
   },
+  /*
+  searchInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    backgroundColor:"white",
+    borderRadius: 5,
+    margin: 10,
+    padding: 10,
+  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -132,7 +125,7 @@ const styles = StyleSheet.create({
     height: 25,
     marginRight: 10, 
     marginLeft: 10,
-  }
+  }*/
 });
 
 export default HomeScreen;
