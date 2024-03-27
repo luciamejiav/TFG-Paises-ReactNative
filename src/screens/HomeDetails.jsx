@@ -35,50 +35,51 @@ export default function HomeDetails({ route }) {
   //además añadimos un link para ir a google maps a ver la ubicación del país
   return (
     <ScrollView>
-      <View style={styles.column}>
+      <View style={styles.imageContainer}>
         <Image source={{ uri: item.flags.png }} style={styles.image} resizeMode="contain" />
-        <View style={[styles.column]}>
-          <Text style={[styles.textCommon, {color: theme.color}]}>{item.name.common}</Text>
+      </View>
+      
+      <Text style={[styles.textCommon, {color: theme.color}]}>{item.name.common}</Text>
 
-          <Text style={[styles.textOfficial, {color: theme.color}]}>{item.name.official}</Text>
+      <View style={styles.column}>
+        <Text style={[styles.textOfficial, {color: theme.color}]}>{item.name.official}</Text>
 
-          <Text style={[styles.text, {color: theme.color}]}>
-            <Text style={styles.boldText}>• Capital: </Text> 
-            {item.capital}
-          </Text>
+        <Text style={[styles.text, {color: theme.color}]}>
+          <Text style={styles.boldText}>• Capital: </Text> 
+          {item.capital}
+        </Text>
 
-          <Text style={[styles.text, {color: theme.color}]}>
-            <Text style={styles.boldText}>• Continente: </Text> 
-            {item.continents.join(', ')}
-          </Text>
+        <Text style={[styles.text, {color: theme.color}]}>
+          <Text style={styles.boldText}>• Continente: </Text> 
+          {item.continents.join(', ')}
+        </Text>
 
-          <Text style={[styles.text, {color: theme.color}]}>
-            <Text style={styles.boldText}>• Población: </Text> 
-            {item.population} habitantes
-          </Text>
+        <Text style={[styles.text, {color: theme.color}]}>
+          <Text style={styles.boldText}>• Población: </Text> 
+          {item.population} habitantes
+        </Text>
 
-          <Text style={[styles.text, {color: theme.color}]}>
-            <Text style={styles.boldText}>• Moneda usada: </Text> 
-            {currenciesName.join('\n') } 
-          </Text>
+        <Text style={[styles.text, {color: theme.color}]}>
+          <Text style={styles.boldText}>• Moneda usada: </Text> 
+          {currenciesName.join('\n') } 
+        </Text>
 
-          <Text style={[styles.text, {color: theme.color}]}>
-            <Text style={styles.boldText}>• Idiomas: </Text>{languagesName.join(', ')}
-          </Text>
+        <Text style={[styles.text, {color: theme.color}]}>
+          <Text style={styles.boldText}>• Idiomas: </Text>{languagesName.join(', ')}
+        </Text>
 
-          <Text style={[styles.text, {color: theme.color}]}>
-            <Text style={styles.boldText}>• Área: </Text>
-            {item.area} km cuadrados
-          </Text>
+        <Text style={[styles.text, {color: theme.color}]}>
+          <Text style={styles.boldText}>• Área: </Text>
+          {item.area} km cuadrados
+        </Text>
 
-          <Text style={[styles.text, {color: theme.color}]}>
-            <Text style={styles.boldText}>• GoogleMaps: </Text>
-          </Text>
+        <Text style={[styles.text, {color: theme.color}]}>
+          <Text style={styles.boldText}>• GoogleMaps: </Text>
+        </Text>
 
-          <TouchableOpacity onPress={() => Linking.openURL(`${item.maps.googleMaps}`)}>
-            <Text style={[styles.text, styles.boldText, styles.ml,{ color: '#3498db'}]}>Ir a la dirección en google maps</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={() => Linking.openURL(`${item.maps.googleMaps}`)}>
+          <Text style={[styles.text, styles.boldText, styles.ml,{ color: '#3498db'}]}>Ir a la dirección en google maps</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -88,17 +89,20 @@ const styles = StyleSheet.create({
   image: {
     width: 360,
     height: 300,
-    marginLeft: 15
+  },
+  imageContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   row: {
     flex: 1,
     flexDirection: "row",
-    margin: 10,
   },
   column: {
     flex: 1,
     flexDirection: "column",
-    margin: 10,
+    marginLeft: 20
   },
   text: {
     fontSize: 19,
@@ -106,7 +110,9 @@ const styles = StyleSheet.create({
   },
   textCommon: {
     fontWeight: "bold",
-    fontSize: 24
+    fontSize: 24,
+    textAlign: 'center',
+    marginBottom: 15
   },
   textOfficial: { 
     fontWeight: "bold", 

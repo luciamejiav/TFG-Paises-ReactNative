@@ -9,7 +9,7 @@ export default function Card({ item }) {
     <View style={styles.row}>
       <Image source={{ uri: item.flags.png }} style={[styles.image, {backgroundColor: theme.backgroundColor}]} resizeMode="contain" />
       <View style={styles.column}>
-        <Text style={[styles.text, { fontWeight: "bold" , color: theme.color}]}>{item.name.common}</Text>
+        <Text style={[styles.text, {color: theme.color}]}>{item.name.common}</Text>
       </View>
     </View>
   )
@@ -38,8 +38,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start"
   },
   text: {
+    fontWeight: "bold",
     fontSize: 18,
-    marginTop: 23,
+    marginVertical: 27,
     marginLeft: 20
   }
 });

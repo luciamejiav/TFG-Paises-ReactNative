@@ -32,7 +32,7 @@ export default function Navigation() {
           component={SettingsScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="home" size={size} color={color} />
+              <MaterialCommunityIcons name="cog" size={size} color={color} /> //cog es el iconos de settings
             ),headerStyle: {
               height: 80, // Ajusta el tamaño de la barra de navegación
               backgroundColor: '#3498db', // Color de fondo de la barra de navegación
