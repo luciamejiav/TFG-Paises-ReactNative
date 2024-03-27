@@ -18,7 +18,7 @@ export default function Navigation() {
         }}
       >
         <Tab.Screen
-          name="home"
+          name="Paises" //nombre que aparece debajo de la casita
           component={Stacks} //en stack tenemos la home, la homedetails y los settings
           options={{
             tabBarIcon: ({ color, size }) => (
