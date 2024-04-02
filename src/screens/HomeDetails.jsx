@@ -75,11 +75,13 @@ export default function HomeDetails({ route }) {
 
         <Text style={[styles.text, {color: theme.color}]}>
           <Text style={styles.boldText}>• GoogleMaps: </Text>
+          
         </Text>
-
+        
         <TouchableOpacity onPress={() => Linking.openURL(`${item.maps.googleMaps}`)}>
           <Text style={[styles.text, styles.boldText, styles.ml,{ color: '#3498db'}]}>Ir a la dirección en google maps</Text>
         </TouchableOpacity>
+        
       </View>
     </ScrollView>
   );
@@ -123,6 +125,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   ml: {
-    marginLeft: 12
+    marginLeft: 14
   }
 });

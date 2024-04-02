@@ -1,14 +1,22 @@
-import React from 'react';
-import { createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, {useContext} from 'react';
+
 import HomeScreen from '../screens/HomeScreen';
 import HomeDetails from '../screens/HomeDetails';
 import SettingsScreen from '../screens/SettingsScreen';
+import themeContext from "../theme/themeContext";
+
+import { createNativeStackNavigator} from '@react-navigation/native-stack';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
+
 
 //define un conjunto de pantallas apiladas para cada pestaña de la barra de pestañas
-
 const HomeStackNavigator = createNativeStackNavigator();
 
 export default function StackCharacter() {
+  const theme = useContext(themeContext);  
+  const navigation = useNavigation(); //navegación de la flecha
+
     return(
         <HomeStackNavigator.Navigator>
           <HomeStackNavigator.Screen 
@@ -38,14 +46,26 @@ export default function StackCharacter() {
               },headerTitleStyle: {
                 fontSize: 25, // Tamaño de la fuente del título
               },
-              headerShown: true //para que aparezca el header con el nombre
+              headerBackTitleVisible: false, // Quita el título que aparece al lado de la flecha de volver
+              headerShown: true, //para que aparezca el header con el nombre
+              headerBackVisible: false, //eliminamos la flecha que viene por defecto para poder personalizar el color
+              headerLeft: () => ( // para que la flecha cambie de color según el tema (oscuro/claro), hacemos lo siguiente
+                <MaterialCommunityIcons 
+                  name="arrow-left" 
+                  size={24} 
+                  color={theme.color} // Utiliza el color del tema para la flecha de retroceso
+                  onPress={() => navigation.goBack(HomeScreen)} 
+                  style={{ marginLeft: 10, marginRight: 66 }} 
+                />
+              ),
             }}
           />
           <HomeStackNavigator.Screen 
             name="Settings" 
             component={SettingsScreen}
             options={{
-              headerBackTitleVisible: false //quita el titulo que aparece al lado de la flecha de volver
+              headerBackTitleVisible: false, //quita el titulo que aparece al lado de la flecha de volver
+              
             }}
           />
         </HomeStackNavigator.Navigator>
