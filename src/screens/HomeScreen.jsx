@@ -1,19 +1,44 @@
 import React, { useState, useEffect, useContext, useLayoutEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, TextInput, Image } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, TextInput, Image, Platform } from 'react-native';
 import { getPaisesAll } from '../services/PaisesAPI';
 import Card from '../components/Card';
 import { useNavigation } from "@react-navigation/native";
 import themeContext from "../theme/themeContext";
 
 const HomeScreen = () => {
-  //estados para gestionar lo necesario
+  //est ados para gestionar lo necesario
   const [paises, setPaises] = useState([]);
   const [currentPais, setCurrentPais] = useState(1);
   const [totalPais, setTotalPais] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
+  
+  //gracias a esta herramienta conseguimos que en Android e IOS se vean todos los paises, sin que ninguno se esconda debajo del encabezado
+  const iosContentContainerStyle = Platform.OS === 'ios' ? { paddingTop: 128 } : null; 
 
   const theme = useContext(themeContext); //tema para cambiar de claro a oscuro y viceversa
   const navigation = useNavigation(); //navegación
+
+  //manejador de cambios en la búsqueda
+  const handleSearchTermChange = (text) => {
+    setSearchTerm(text);
+  };
+      
+  //añadimos el filtro de búsqueda de paises a la barra superior
+  useLayoutEffect(() => { 
+    navigation.setOptions({
+      headerSearchBarOptions: {
+        placeholder: "Search",
+        onChangeText: (event) => {
+          handleSearchTermChange(event.nativeEvent.text)
+        }
+      }
+    });
+  }, [navigation]);
+
+  //efecto para obtener la lista de paises
+  useEffect(() => {
+    getPaises();
+  }, []);
 
   //función para obtener la lista de paises
   const getPaises = () => {
@@ -28,31 +53,11 @@ const HomeScreen = () => {
       .catch(err => console.log("error", err));
   };
 
-  //manejador de cambios en la búsqueda
-  const handleSearchTermChange = (text) => {
-    setSearchTerm(text);
-  };
-
-  //efecto para obtener la lista de paises
-  useEffect(() => {
-    getPaises();
-  }, []);
-
-  //añadimos el filtro de búsqueda de paises a la barra superior
-  useLayoutEffect(() => { 
-    navigation.setOptions({
-      headerSearchBarOptions: {
-        placeholder: "Search",
-        onChangeText: (event) => {
-          handleSearchTermChange(event.nativeEvent.text)
-        },
-      }
-    });
-  }, [navigation]);
-
   return (
       <FlatList //con la flatlist hacemos una lista con todos los países y dibujamos en ella los card
         style={[styles.list, { backgroundColor: theme.backgroundColor }]}
+        contentContainerStyle={iosContentContainerStyle} //llamamos a la constante que hemos creado para ver la app bien en ambos sistemas
+        
         data={paises.filter((pais) =>
           pais.name.common.toLowerCase().includes(searchTerm.toLowerCase())
         )}
@@ -81,8 +86,8 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     width: "100%",
-    padding: 10,
-    marginTop: 10
+    marginTop: 10, //con 140 se baja el card que oculta pero sale una raya blanca
+    padding: 10
   },
   image: {
     width: 80,
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
   row: {
     flex: 1,
     flexDirection: "row",
-    margin: 10
+    margin: 10,
   },
   column: {
     flex: 1,
