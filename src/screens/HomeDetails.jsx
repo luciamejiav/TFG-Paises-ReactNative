@@ -90,12 +90,13 @@ export default function HomeDetails({ route }) {
 const styles = StyleSheet.create({
   image: {
     width: 360,
-    height: 300,
+    height: 250
   },
   imageContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 10
   },
   row: {
     flex: 1,
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
   },
   textCommon: {
     fontWeight: "bold",
-    fontSize: 24,
+    fontSize: 25,
     textAlign: 'center',
     marginBottom: 15
   },

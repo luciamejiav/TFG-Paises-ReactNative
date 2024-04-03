@@ -5,37 +5,37 @@ import SettingsScreen from '../screens/SettingsScreen';
 import Stacks from './Stacks'
 
 //establece la estructura general de la aplicación con una barra de pestañas en la parte inferior
-
 const Tab = createBottomTabNavigator();
+
 //menú de navegación abajo
 export default function Navigation() {
       
   return (
       <Tab.Navigator
         screenOptions={{
-          tabBarActiveTintColor: '#3498db',//con esto ponemos el icono de abajo que hayamos clicado en azul e iniciamos siempre la app en home
+          tabBarActiveTintColor: '#c263f9',//con esto ponemos el icono de abajo que hayamos clicado en azul e iniciamos siempre la app en home
           
         }}
       >
         <Tab.Screen
-          name="Paises" //nombre que aparece debajo de la casita
+          name="Pais" //nombre que aparece debajo de la casita
           component={Stacks} //en stack tenemos la home, la homedetails y los settings
           options={{
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="home" size={size} color={color} />
+              <MaterialCommunityIcons name="airplane" size={size} color={color} />
             ),
             headerShown: false //para que no aparezca el header con el nombre
           }}
         />
         <Tab.Screen
-          name="Settings"
+          name="Ajustes"
           component={SettingsScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="cog" size={size} color={color} /> //cog es el iconos de settings
             ),headerStyle: {
               height: 80, // Ajusta el tamaño de la barra de navegación
-              backgroundColor: '#3498db', // Color de fondo de la barra de navegación
+              backgroundColor: '#c263f9', // Color de fondo de la barra de navegación
             },headerTitleStyle: {
               fontSize: 25, // Tamaño de la fuente del título
             },

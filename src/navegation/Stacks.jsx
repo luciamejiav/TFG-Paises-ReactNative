@@ -20,14 +20,14 @@ export default function StackCharacter() {
     return(
         <HomeStackNavigator.Navigator>
           <HomeStackNavigator.Screen 
-            name="Paises"  //titulo cabecera
+            name="Paises del Mundo"  //titulo cabecera
             component={HomeScreen} //pintamos la homescreen
             options={{
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons name="home" size={size} color={color} />
               ),headerStyle: {
                 height: 100, // Ajusta el tamaño de la barra de navegación
-                backgroundColor: '#3498db', // Color de fondo de la barra de navegación
+                backgroundColor: '#c263f9', // Color de fondo de la barra de navegación
               },headerTitleStyle: {
                 fontSize: 25, // Tamaño de la fuente del título
               },
@@ -38,11 +38,10 @@ export default function StackCharacter() {
             name="HomeDetails"
             component={HomeDetails}  //para ir de una pantalla a otra
             options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="home" size={size} color={color} />
-              ),headerStyle: {
+              headerTitle: () => false,
+              headerStyle: {
                 height: 100, // Ajusta el tamaño de la barra de navegación
-                backgroundColor: '#3498db', // Color de fondo de la barra de navegación
+                backgroundColor: '#c263f9', // Color de fondo de la barra de navegación
               },headerTitleStyle: {
                 fontSize: 25, // Tamaño de la fuente del título
               },
@@ -54,7 +53,7 @@ export default function StackCharacter() {
                   name="arrow-left" 
                   size={24} 
                   color={theme.color} // Utiliza el color del tema para la flecha de retroceso
-                  onPress={() => navigation.goBack(HomeScreen)} 
+                  onPress={() => navigation.goBack(HomeScreen)} //al pulsar volvemos a la home
                   style={{ marginLeft: 10, marginRight: 66 }} 
                 />
               ),
