@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SettingsScreen from '../screens/SettingsScreen';
 import Stacks from './Stacks'
+import LoginScreen from "../screens/LoginScreen";
 
 //establece la estructura general de la aplicación con una barra de pestañas en la parte inferior
 const Tab = createBottomTabNavigator();
@@ -27,20 +28,43 @@ export default function Navigation() {
             headerShown: false //para que no aparezca el header con el nombre
           }}
         />
+
         <Tab.Screen
-          name="Ajustes"
-          component={SettingsScreen}
+          name="Usuario" //nombre que aparece debajo de la casita
+          component={LoginScreen} //en stack tenemos la home, la homedetails y los settings
           options={{
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="cog" size={size} color={color} /> //cog es el iconos de settings
-            ),headerStyle: {
-              height: 80, // Ajusta el tamaño de la barra de navegación
-              backgroundColor: '#c263f9', // Color de fondo de la barra de navegación
-            },headerTitleStyle: {
-              fontSize: 25, // Tamaño de la fuente del título
-            },
-            headerShown: true //para que aparezca el header con el nombre
-          }} />
+              <MaterialCommunityIcons name="account-circle" size={size} color={color} />
+            ),
+            headerShown: false //para que no aparezca el header con el nombre
+          }}
+        />
+
+        <Tab.Screen
+          name="Ajustes"
+          component={SettingsScreen} 
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="cog" size={size} color={color} />
+            ),
+            headerShown: false //para que no aparezca el header con el nombre
+          }} 
+        />
       </Tab.Navigator>
+
+      
   );
+  /*
+  
+        <Tab.Screen
+          name="Usuario" //nombre que aparece debajo de la casita
+          component={Stacks} //en stack tenemos la home, la homedetails y los settings
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="account-circle" size={size} color={color} />
+            ),
+            headerShown: false //para que no aparezca el header con el nombre
+          }}
+        />
+  */
 }
