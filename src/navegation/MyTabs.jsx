@@ -47,24 +47,11 @@ export default function Navigation() {
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="cog" size={size} color={color} />
             ),
-            headerShown: false //para que no aparezca el header con el nombre
+            headerShown: true //para que no aparezca el header con el nombre
           }} 
         />
       </Tab.Navigator>
 
       
   );
-  /*
-  
-        <Tab.Screen
-          name="Usuario" //nombre que aparece debajo de la casita
-          component={Stacks} //en stack tenemos la home, la homedetails y los settings
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="account-circle" size={size} color={color} />
-            ),
-            headerShown: false //para que no aparezca el header con el nombre
-          }}
-        />
-  */
 }
