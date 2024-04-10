@@ -1,5 +1,5 @@
 import {React,  useState } from 'react';
-import {Image, Text, StyleSheet, View, ScrollView, TouchableOpacity, TextInput, Button, Alert } from 'react-native';
+import {Image, Text, StyleSheet, View, ScrollView, TouchableOpacity, TextInput, Alert } from 'react-native';
 import {BlurView} from 'expo-blur';
 
 //import necesarios para firebase
@@ -9,6 +9,7 @@ import { firebaseConfig } from '../services/firebase-config';
 
 //importamos lo necesario para la navegación
 import {useNavigation} from '@react-navigation/native';
+import { onChange } from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
 
 export default function LoginScreen() {
     const [email, setEmail] = useState('');
@@ -27,10 +28,11 @@ export default function LoginScreen() {
         console.log("Cuenta creada");
         const user = userCredential.user;
         console.log(user)
+        Alert.alert("Cuenta creada!")
       })
       .catch(error => {
         console.log(error);
-        Alert.alert(error.message)
+        Alert.alert("Este correo ya está registrado.")
       })
     }
   
@@ -41,11 +43,12 @@ export default function LoginScreen() {
         console.log("Sign in!");
         const user = userCredential.user;
         console.log(user)
-        //navigation.navigate('Paises del Mundo');
         Alert.alert("Bienvenido!")
+        onChange={}
       })
       .catch(error => {
         console.log(error);
+        Alert.alert("Este correo todavía no ha sido registrado.")
       })
     }
     return(
@@ -72,7 +75,7 @@ export default function LoginScreen() {
               <TouchableOpacity onPress={handleSignIn} style={[styles.button, backgroundColor='#86b7fe']}>
                 <Text style={styles.boton}>Iniciar Sesión</Text>
               </TouchableOpacity>
-  
+
               <TouchableOpacity onPress={handleCreateAccount} style={styles.button}>
                 <Text style={styles.boton}>Registrarse</Text>
               </TouchableOpacity>
