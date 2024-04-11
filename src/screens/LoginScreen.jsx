@@ -32,7 +32,7 @@ export default function LoginScreen() {
       })
       .catch(error => {
         console.log(error);
-        Alert.alert("Este correo ya está registrado.")
+        Alert.alert(error.message)//"Este correo ya está registrado o la contraseña es demasiado ."
       })
     }
   
@@ -43,14 +43,14 @@ export default function LoginScreen() {
         console.log("Sign in!");
         const user = userCredential.user;
         console.log(user)
-        Alert.alert("Bienvenido!")
-        onChange={}
+        Alert.alert(`Bienvenido ${email}!`)
       })
       .catch(error => {
         console.log(error);
-        Alert.alert("Este correo todavía no ha sido registrado.")
+        Alert.alert(error.message)//"El correo/contraseña son incorrectos o no está registrado."
       })
     }
+
     return(
       <View style={styles.container}>
         <Image source={require('../img/fondo.jpg')} style={[styles.image, StyleSheet.absoluteFill]} />
