@@ -1,9 +1,10 @@
 import React from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import SettingsScreen from '../screens/SettingsScreen';
 import Stacks from './Stacks'
+import SettingsScreen from '../screens/SettingsScreen';
 import LoginScreen from "../screens/LoginScreen";
+import ChatScreen from "../screens/ChatScreen";
 
 //establece la estructura general de la aplicación con una barra de pestañas en la parte inferior
 const Tab = createBottomTabNavigator();
@@ -30,11 +31,11 @@ export default function Navigation() {
         />
 
         <Tab.Screen
-          name="Usuario" //nombre que aparece debajo de la casita
-          component={LoginScreen} //en stack tenemos la home, la homedetails y los settings
+          name="Chat" //nombre que aparece debajo de la casita
+          component={ChatScreen} //en stack tenemos la home, la homedetails y los settings
           options={{
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="account-circle" size={size} color={color} />
+              <MaterialCommunityIcons name="wechat" size={size} color={color} />
             ),
             headerShown: false //para que no aparezca el header con el nombre
           }}
@@ -54,4 +55,18 @@ export default function Navigation() {
 
       
   );
+  /*
+    COMO PONEMOS INICIO DE SESION AL ABRIR LA APP NO LO PONEMOS EN LA BARRA DE NAVEGACION    
+    
+        <Tab.Screen
+          name="Usuario" //nombre que aparece debajo de la casita
+          component={LoginScreen} //en stack tenemos la home, la homedetails y los settings
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="account-circle" size={size} color={color} />
+            ),
+            headerShown: false //para que no aparezca el header con el nombre
+          }}
+        />
+   */
 }

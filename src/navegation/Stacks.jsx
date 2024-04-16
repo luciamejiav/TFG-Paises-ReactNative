@@ -12,15 +12,16 @@ import { useNavigation } from "@react-navigation/native";
 
 
 //define un conjunto de pantallas apiladas para cada pestaña de la barra de pestañas
-const HomeStackNavigator = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
+
 
 export default function Stacks() {
   const theme = useContext(themeContext);  
   const navigation = useNavigation(); //navegación de la flecha
 
     return(
-        <HomeStackNavigator.Navigator >
-          <HomeStackNavigator.Screen 
+        <Stack.Navigator initialRouteName='Login'>
+          <Stack.Screen 
             name="Paises"  //titulo cabecera
             component={HomeScreen} //pintamos la homescreen
             options={{
@@ -30,11 +31,12 @@ export default function Stacks() {
               },headerTitleStyle: {
                 fontSize: 25, // Tamaño de la fuente del título
               },
+              headerBackVisible: false,
               headerShown: true //para que aparezca el header con el nombre
               
             }}
           />
-          <HomeStackNavigator.Screen
+          <Stack.Screen
             name="HomeDetails"
             component={HomeDetails}  //para ir de una pantalla a otra
             options={{
@@ -59,7 +61,8 @@ export default function Stacks() {
               ),
             }}
           />
-          <HomeStackNavigator.Screen 
+
+          <Stack.Screen 
             name="Settings" 
             component={SettingsScreen}
             options={{
@@ -74,10 +77,15 @@ export default function Stacks() {
               headerShown: true //para que aparezca el header con el nombre
             }}
           />
-          <HomeStackNavigator.Screen
+          <Stack.Screen
             name="Login"
             component={LoginScreen}  //para ir de una pantalla a otra
+            options={{
+              headerShown: false,
+              headerBackVisible: false,
+              tabBarHideOnKeyboard: false
+            }}
           />
-        </HomeStackNavigator.Navigator>
+        </Stack.Navigator>
       )
 }

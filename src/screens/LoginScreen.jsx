@@ -5,11 +5,10 @@ import {BlurView} from 'expo-blur';
 //import necesarios para firebase
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from '../services/firebase-config';
+import { firebaseConfig } from '../config/firebase-config';
 
 //importamos lo necesario para la navegación
 import {useNavigation} from '@react-navigation/native';
-import { onChange } from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
 
 export default function LoginScreen() {
     const [email, setEmail] = useState('');
@@ -29,6 +28,7 @@ export default function LoginScreen() {
         const user = userCredential.user;
         console.log(user)
         Alert.alert("Cuenta creada!")
+        navigation.navigate('Paises') //si está todo bien pasamos a la homescreen
       })
       .catch(error => {
         console.log(error);
@@ -44,6 +44,7 @@ export default function LoginScreen() {
         const user = userCredential.user;
         console.log(user)
         Alert.alert(`Bienvenido ${email}!`)
+        navigation.navigate('Paises') //si está todo bien pasamos a la homescreen
       })
       .catch(error => {
         console.log(error);
