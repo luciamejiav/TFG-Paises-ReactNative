@@ -20,7 +20,7 @@ export default function Stacks() {
   const navigation = useNavigation(); //navegación de la flecha
 
     return(
-        <Stack.Navigator initialRouteName='Login'>
+        <Stack.Navigator >
           <Stack.Screen 
             name="Paises"  //titulo cabecera
             component={HomeScreen} //pintamos la homescreen
@@ -61,7 +61,6 @@ export default function Stacks() {
               ),
             }}
           />
-
           <Stack.Screen 
             name="Settings" 
             component={SettingsScreen}
