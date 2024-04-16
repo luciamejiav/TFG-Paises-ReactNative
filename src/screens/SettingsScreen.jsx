@@ -2,8 +2,6 @@ import React, {useState, useContext} from "react";
 import { View, Text, StyleSheet, Switch, Button } from "react-native";
 import { EventRegister } from "react-native-event-listeners";
 import themeContext from "../theme/themeContext";
-import LoginScreen from "./LoginScreen";
-
 
 
 export default function SettingsScreen() {

@@ -19,7 +19,7 @@ export default function Stacks() {
   const navigation = useNavigation(); //navegación de la flecha
 
     return(
-        <HomeStackNavigator.Navigator >
+        <HomeStackNavigator.Navigator initialRouteName='Login'>
           <HomeStackNavigator.Screen 
             name="Paises"  //titulo cabecera
             component={HomeScreen} //pintamos la homescreen
@@ -30,6 +30,7 @@ export default function Stacks() {
               },headerTitleStyle: {
                 fontSize: 25, // Tamaño de la fuente del título
               },
+              headerBackVisible: false,
               headerShown: true //para que aparezca el header con el nombre
               
             }}
@@ -59,6 +60,7 @@ export default function Stacks() {
               ),
             }}
           />
+
           <HomeStackNavigator.Screen 
             name="Settings" 
             component={SettingsScreen}
@@ -77,6 +79,11 @@ export default function Stacks() {
           <HomeStackNavigator.Screen
             name="Login"
             component={LoginScreen}  //para ir de una pantalla a otra
+            options={{
+              headerShown: false,
+              headerBackVisible: false,
+              tabBarHideOnKeyboard: false
+            }}
           />
         </HomeStackNavigator.Navigator>
       )

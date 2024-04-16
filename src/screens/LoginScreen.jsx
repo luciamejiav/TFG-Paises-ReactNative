@@ -29,6 +29,7 @@ export default function LoginScreen() {
         const user = userCredential.user;
         console.log(user)
         Alert.alert("Cuenta creada!")
+        navigation.navigate('Paises') //si está todo bien pasamos a la homescreen
       })
       .catch(error => {
         console.log(error);
@@ -44,6 +45,7 @@ export default function LoginScreen() {
         const user = userCredential.user;
         console.log(user)
         Alert.alert(`Bienvenido ${email}!`)
+        navigation.navigate('Paises') //si está todo bien pasamos a la homescreen
       })
       .catch(error => {
         console.log(error);
