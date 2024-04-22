@@ -10,6 +10,7 @@
 export const firebaseConfig = {
   apiKey: "AIzaSyCy003gEX9j5iUpotiB0n_tmyDbIDZ9cXo",
   authDomain: "tfg-paises.firebaseapp.com",
+  databaseURL: "https://tfg-paises-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "tfg-paises",
   storageBucket: "tfg-paises.appspot.com",
   messagingSenderId: "77367561728",
