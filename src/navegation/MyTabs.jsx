@@ -36,8 +36,13 @@ export default function Navigation() {
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="wechat" size={size} color={color} />
-            ),
-            headerShown: false //para que no aparezca el header con el nombre
+            ),headerStyle: {
+              height: 100, // Ajusta el tamaño de la barra de navegación
+              backgroundColor: '#c263f9', // Color de fondo de la barra de navegación
+            },headerTitleStyle: {
+              fontSize: 25, // Tamaño de la fuente del título
+            },
+            headerShown: true //para que no aparezca el header con el nombre
           }}
         />
 
