@@ -12,16 +12,15 @@ import { useNavigation } from "@react-navigation/native";
 
 
 //define un conjunto de pantallas apiladas para cada pestaña de la barra de pestañas
-const Stack = createNativeStackNavigator();
-
+const HomeStackNavigator = createNativeStackNavigator();
 
 export default function Stacks() {
   const theme = useContext(themeContext);  
   const navigation = useNavigation(); //navegación de la flecha
 
     return(
-        <Stack.Navigator >
-          <Stack.Screen 
+        <HomeStackNavigator.Navigator initialRouteName='Login'>
+          <HomeStackNavigator.Screen 
             name="Paises"  //titulo cabecera
             component={HomeScreen} //pintamos la homescreen
             options={{
@@ -36,7 +35,7 @@ export default function Stacks() {
               
             }}
           />
-          <Stack.Screen
+          <HomeStackNavigator.Screen
             name="HomeDetails"
             component={HomeDetails}  //para ir de una pantalla a otra
             options={{
@@ -61,7 +60,8 @@ export default function Stacks() {
               ),
             }}
           />
-          <Stack.Screen 
+
+          <HomeStackNavigator.Screen 
             name="Settings" 
             component={SettingsScreen}
             options={{
@@ -76,15 +76,6 @@ export default function Stacks() {
               headerShown: true //para que aparezca el header con el nombre
             }}
           />
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}  //para ir de una pantalla a otra
-            options={{
-              headerShown: false,
-              headerBackVisible: false,
-              tabBarHideOnKeyboard: false
-            }}
-          />
-        </Stack.Navigator>
+        </HomeStackNavigator.Navigator>
       )
 }
