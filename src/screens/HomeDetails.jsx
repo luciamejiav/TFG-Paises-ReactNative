@@ -1,6 +1,14 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useCallback, useRef} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Linking, ScrollView } from 'react-native';
+import Toast from 'react-native-easy-toast';
+//import { Icon } from 'react-native-elements';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 import themeContext from "../theme/themeContext";
+import firebase from 'firebase/app';
+import { firebaseConfig } from '../config/firebase-config';
+import {getAuth} from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
 
 //para mostrar los detalles de cada país
 export default function HomeDetails({ route }) {
@@ -8,6 +16,16 @@ export default function HomeDetails({ route }) {
   const theme = useContext(themeContext);
   
   const { item } = route.params; //parámetros de la ruta
+  const [isFavourite, setIsFavourite] = useState(false); //lo iniciamos como no favorito
+  const [userLogged, setUserLogged] = useState(false);
+  const toastRef = useRef();
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  auth.onAuthStateChanged(user => {
+    user ? setUserLogged(true) : setUserLogged(false)//comprobar si el usuario esta logueado
+  })
 
   //si no hay datos muestra un mensaje de cargando 
   if (!item) {
@@ -30,6 +48,20 @@ export default function HomeDetails({ route }) {
     languagesName.push(`${item.languages[language]}`); //sacamos todos los idiomas que se hablan en un país
   }
 
+  const addFavourite = () => {
+    //añadir a favoritos
+    if(!userLogged){
+      toastRef.current.show("Para añadir a favoritos debe estar Logueado", 3000)
+      return
+    }
+    console.log("añadiendo a favoritos")
+  }
+
+  const removeFavourite = () => {
+    //eliminar de favoritos
+    console.log("Eliminado de favoritos")
+  }
+
   //con esto mostramos los datos que queremos de la api en la pantalla de details
   //usamos .join('\n') para concatenar con un salto de linea y .join(', ') para separar por coma y espacio
   //además añadimos un link para ir a google maps a ver la ubicación del país
@@ -37,6 +69,16 @@ export default function HomeDetails({ route }) {
     <ScrollView>
       <View style={styles.imageContainer}>
         <Image source={{ uri: item.flags.png }} style={styles.image} resizeMode="contain" />
+      </View>
+      <View style={styles.fav}>
+        <FontAwesome
+          type="material-community"
+          name={isFavourite ? "heart" : "heart-o"}
+          onPress= {isFavourite ? removeFavourite : addFavourite} 
+          size={34}
+          color={isFavourite ? "#FF0000" : "#000000"}
+          underlayColor = "transparent" //color de atrás
+        /> 
       </View>
       
       <Text style={[styles.textCommon, {color: theme.color}]}>{item.name.common}</Text>
@@ -83,6 +125,7 @@ export default function HomeDetails({ route }) {
         </TouchableOpacity>
         
       </View>
+      <Toast ref={toastRef} position="center" opacity={0.9} />
     </ScrollView>
   );
 }
@@ -127,5 +170,14 @@ const styles = StyleSheet.create({
   },
   ml: {
     marginLeft: 14
+  },
+  fav:{
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    backgroundColor: "#FAF2FC",
+    borderBottomLeftRadius: 20,
+    padding: 5,
+    paddingLeft: 15
   }
 });
