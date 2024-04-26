@@ -1,13 +1,15 @@
-import React, {useContext, useState, useCallback, useRef} from 'react';
+import React, {useContext, useState, useEffect, useCallback, useRef} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Linking, ScrollView } from 'react-native';
 import Toast from 'react-native-easy-toast';
 //import { Icon } from 'react-native-elements';
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import FontAwesome from "react-native-vector-icons/FontAwesome"; //icono favoritos
+
 
 import themeContext from "../theme/themeContext";
 import firebase from 'firebase/app';
 import { firebaseConfig } from '../config/firebase-config';
 import {getAuth} from 'firebase/auth';
+import {addDoc, collection, getFirestore } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 
 //para mostrar los detalles de cada país
@@ -16,12 +18,17 @@ export default function HomeDetails({ route }) {
   const theme = useContext(themeContext);
   
   const { item } = route.params; //parámetros de la ruta
+  const [paises, setPaises] = useState(null);
   const [isFavourite, setIsFavourite] = useState(false); //lo iniciamos como no favorito
   const [userLogged, setUserLogged] = useState(false);
   const toastRef = useRef();
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+
+  const db = getFirestore(app);
+  const favouriteRef = collection(db, 'favoritos'); // Referencia a la colección 'favourites'
+
 
   auth.onAuthStateChanged(user => {
     user ? setUserLogged(true) : setUserLogged(false)//comprobar si el usuario esta logueado
@@ -48,14 +55,66 @@ export default function HomeDetails({ route }) {
     languagesName.push(`${item.languages[language]}`); //sacamos todos los idiomas que se hablan en un país
   }
 
-  const addFavourite = () => {
-    //añadir a favoritos
+  //añadir a favoritos
+  const addFavourite = async () => {
     if(!userLogged){
       toastRef.current.show("Para añadir a favoritos debe estar Logueado", 3000)
       return
     }
-    console.log("añadiendo a favoritos")
+
+    const currentUser = auth.currentUser; // Obtener el usuario actualmente autenticado
+    if (!currentUser) {
+      toastRef.current.show("Usuario no autenticado", 3000);
+      return;
+    }
+
+    console.log("añadiendo a favoritos");
+    try {
+      const response = await addDoc(favouriteRef, {
+        idUser: currentUser.uid,
+        idPais: item.cca3
+      })
+      setIsFavourite(true)
+      toastRef.current.show("Añadido a favoritos", 3000)
+    }catch(error){
+      console.error("Error al añadir a favoritos:", error);
+      toastRef.current.show("No se ha podido añadir a favoritos, intentalo más tarde", 3000)
+    }
+    
   }
+
+  const getIsFavourite = async(idPais) => {
+    const resultado = {statusResponse: true, error: null, isFavourite: false}
+    try {
+      const response = await db
+        .collection("favoritos")
+        .where("idPais", "==", idPais)
+        .where("idUser", "==", idUser)
+        .get()
+      resultado.isFavourite = response.docs.length > 0
+    }catch(error){
+      resultado.statusResponse = false
+      resultado.error = error
+      console.log("Error al obtener favoritos: " + error)
+    }
+    console.log("Resultado" + resultado)
+    return resultado
+  }
+
+  useEffect(() => {
+    (async() => {
+      try {
+        if(userLogged && paises){
+          const response = await getIsFavourite(paises.id)
+          if(response.statusResponse){
+            response.statusResponse && setIsFavourite(response.isFavourite)
+          }
+        }
+      } catch (error) {
+        console.error("Error al obtener favoritos:", error);
+      }
+    })()
+  }, [userLogged, paises])
 
   const removeFavourite = () => {
     //eliminar de favoritos
@@ -76,7 +135,7 @@ export default function HomeDetails({ route }) {
           name={isFavourite ? "heart" : "heart-o"}
           onPress= {isFavourite ? removeFavourite : addFavourite} 
           size={34}
-          color={isFavourite ? "#FF0000" : "#000000"}
+          color="#000000"
           underlayColor = "transparent" //color de atrás
         /> 
       </View>
