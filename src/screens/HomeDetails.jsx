@@ -138,11 +138,6 @@ export default function HomeDetails({ route }) {
           where("idPais", "==", idPais),
           where("idUser", "==", auth.currentUser.uid)
         ));
-
-     /* resultado.forEach(async (doc) => {
-        const favId = doc.id
-        await deleteDoc(doc(db, 'favoritos', favId))
-      })//; = !querySnapshot.empty;*/
       querySnapshot.forEach(async (doc) => {
         // Eliminar el documento actual
         await deleteDoc(doc.ref);
