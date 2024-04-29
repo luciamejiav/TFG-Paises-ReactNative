@@ -9,7 +9,7 @@ import themeContext from "../theme/themeContext";
 import firebase from 'firebase/app';
 import { firebaseConfig } from '../config/firebase-config';
 import { getAuth } from 'firebase/auth';
-import { addDoc, collection, getFirestore, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, collection, getFirestore, getDocs, query, where, deleteDoc } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 
 //para mostrar los detalles de cada país
@@ -60,17 +60,13 @@ export default function HomeDetails({ route }) {
       toastRef.current.show("Para añadir a favoritos debe estar Logueado", 3000)
       return
     }
-    //const currentUser = auth.currentUser; // Obtener el usuario actualmente autenticado
-    /*if (!currentUser) {
-      toastRef.current.show("Usuario no autenticado", 3000);
-      return;
-    }*/
 
     console.log("añadiendo a favoritos");
     const response = await addDoc(favouriteRef, {
       idUser: auth.currentUser.uid,
       idPais: item.cca3
     })
+
     if (response.statusResponse) {
       setIsFavourite(true)
       toastRef.current.show("Añadido a favoritos", 3000)
@@ -79,32 +75,27 @@ export default function HomeDetails({ route }) {
     }
 
   }
-
+  //accion añadir a favoritos
   const getIsFavourite = async (idPais) => {
     const resultado = { statusResponse: true, error: null, isFavourite: false }
     try {
-      /*const response = await db
-        .collection("favoritos")
-        .where("idPais", "==", idPais)
-        .where("idUser", "==", auth.currentUser.uid)
-        .get()
-      resultado.isFavourite = response.docs.length > 0*/
       const querySnapshot = await getDocs(query
-        (collection(db, 'favoritos'), 
-          where("idPais", "==", idPais), 
-          where("idUser", "==", 
-          auth.currentUser.uid)));
+        (collection(db, 'favoritos'),
+          where("idPais", "==", idPais),
+          where("idUser", "==", auth.currentUser.uid)
+        ));
 
-    resultado.isFavourite = !querySnapshot.empty;
+      resultado.isFavourite = !querySnapshot.empty;
     } catch (error) {
       resultado.statusResponse = false
       resultado.error = error
       console.log("Error al obtener favoritos: " + error)
     }
-    console.log("Resultado" + resultado)
+    console.log("Resultado añadir:" + resultado)
     return resultado
   }
 
+  //efecto para añadir a favoritos
   useEffect(() => {
     (async () => {
       try {
@@ -120,10 +111,51 @@ export default function HomeDetails({ route }) {
     })()
   }, [userLogged, item.cca3])
 
-  const removeFavourite = () => {
-    //eliminar de favoritos
-    console.log("Eliminado de favoritos")
+  //eliminar de favoritos
+  const removeFavourite = async () => {
+    if (!userLogged) {
+      toastRef.current.show("Para eliminar de favoritos debe estar Logueado", 3000)
+      return
+    }
+
+    console.log("eliminando de favoritos");
+    const response = await eliminarFavorito(item.cca3)
+
+    if (response.statusResponse) {
+      setIsFavourite(false)
+      toastRef.current.show("Eliminado de favoritos", 3000)
+    } else {
+      toastRef.current.show("No se ha podido eliminar de favoritos, intentalo más tarde", 3000)
+    }
   }
+
+  //Accion eliminar 
+  const eliminarFavorito = async (idPais) => {
+    const resultado = { statusResponse: true, error: null }
+    try {
+      const querySnapshot = await getDocs(query
+        (collection(db, 'favoritos'),
+          where("idPais", "==", idPais),
+          where("idUser", "==", auth.currentUser.uid)
+        ));
+
+     /* resultado.forEach(async (doc) => {
+        const favId = doc.id
+        await deleteDoc(doc(db, 'favoritos', favId))
+      })//; = !querySnapshot.empty;*/
+      querySnapshot.forEach(async (doc) => {
+        // Eliminar el documento actual
+        await deleteDoc(doc.ref);
+      });
+    } catch (error) {
+      resultado.statusResponse = false
+      resultado.error = error
+      console.log("Error al eliminar favoritos: " + error)
+    }
+    console.log("Resultado eliminar " + resultado)
+    return resultado
+  }
+
 
   //con esto mostramos los datos que queremos de la api en la pantalla de details
   //usamos .join('\n') para concatenar con un salto de linea y .join(', ') para separar por coma y espacio
