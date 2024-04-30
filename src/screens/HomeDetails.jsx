@@ -56,22 +56,23 @@ export default function HomeDetails({ route }) {
 
   //añadir a favoritos
   const addFavourite = async () => {
-    if (!userLogged) {
-      toastRef.current.show("Para añadir a favoritos debe estar Logueado", 3000)
-      return
-    }
-
-    console.log("añadiendo a favoritos");
-    const response = await addDoc(favouriteRef, {
-      idUser: auth.currentUser.uid,
-      idPais: item.cca3
-    })
-
-    if (response.statusResponse) {
-      setIsFavourite(true)
-      toastRef.current.show("Añadido a favoritos", 3000)
-    } else {
-      toastRef.current.show("No se ha podido añadir a favoritos, intentalo más tarde", 3000)
+    try {
+      if (!userLogged) {
+        toastRef.current.show("Para añadir a favoritos debe estar Logueado", 3000);
+        return;
+      }
+  
+      console.log("añadiendo a favoritos");
+      const response = await addDoc(favouriteRef, {
+        idUser: auth.currentUser.uid,
+        idPais: item.cca3
+      });
+  
+      setIsFavourite(true);
+      toastRef.current.show("Añadido a favoritos", 3000);
+    } catch (error) {
+      console.error("Error al añadir a favoritos:", error);
+      toastRef.current.show("No se ha podido añadir a favoritos, intentalo más tarde", 3000);
     }
 
   }
@@ -158,7 +159,7 @@ export default function HomeDetails({ route }) {
   return (
     <ScrollView>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: item.flags.png }} style={styles.image} resizeMode="contain" />
+        <Image source={{ uri: item.flags && item.flags.png }} style={styles.image} resizeMode="contain" />
       </View>
       <View style={styles.fav}>
         <FontAwesome
@@ -171,10 +172,10 @@ export default function HomeDetails({ route }) {
         />
       </View>
 
-      <Text style={[styles.textCommon, { color: theme.color }]}>{item.name.common}</Text>
+      <Text style={[styles.textCommon, { color: theme.color }]}>{item && item.name && item.name.common}</Text>
 
       <View style={styles.column}>
-        <Text style={[styles.textOfficial, { color: theme.color }]}>{item.name.official}</Text>
+        <Text style={[styles.textOfficial, { color: theme.color }]}>{item && item.name && item.name.official}</Text>
 
         <Text style={[styles.text, { color: theme.color }]}>
           <Text style={styles.boldText}>• Capital: </Text>
@@ -183,7 +184,7 @@ export default function HomeDetails({ route }) {
 
         <Text style={[styles.text, { color: theme.color }]}>
           <Text style={styles.boldText}>• Continente: </Text>
-          {item.continents.join(', ')}
+          {item.continents ? item.continents.join(', ') : ''}
         </Text>
 
         <Text style={[styles.text, { color: theme.color }]}>
@@ -197,7 +198,8 @@ export default function HomeDetails({ route }) {
         </Text>
 
         <Text style={[styles.text, { color: theme.color }]}>
-          <Text style={styles.boldText}>• Idiomas: </Text>{languagesName.join(', ')}
+          <Text style={styles.boldText}>• Idiomas: </Text>
+          {Array.isArray(item.languages) ? item.languages.join(', ') : ''}
         </Text>
 
         <Text style={[styles.text, { color: theme.color }]}>

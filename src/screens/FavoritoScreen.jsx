@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Platform } from 'react-native';
 import { getDocs, collection, query, where } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
@@ -8,23 +8,29 @@ import { firebaseConfig } from '../config/firebase-config';
 import themeContext from "../theme/themeContext";
 
 import { useNavigation } from "@react-navigation/native";
+import Card from '../components/Card';
 
-
-// Inicializar la app de Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
 
 
 
 export default function FavoritosScreen() {
+
+    // Inicializar la app de Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
     const theme = useContext(themeContext);
-    const [favoritos, setFavoritos] = useState([]);
     const navigation = useNavigation();
+    const [favoritos, setFavoritos] = useState([]);
 
     const [paises, setPaises] = useState([]);
     const [currentPais, setCurrentPais] = useState(1);
     const [totalPais, setTotalPais] = useState(0);
+
+    //gracias a esta herramienta conseguimos que en Android e IOS se vean todos los paises, sin que ninguno se esconda debajo del encabezado
+    const iosContentContainerStyle = Platform.OS === 'ios' ? { paddingTop: 128 } : null;
+
 
     useEffect(() => {
         const obtenerFavoritos = async () => {
@@ -58,33 +64,30 @@ export default function FavoritosScreen() {
             .catch(err => console.log("error", err));
     };
 
-    const renderItem = ({ item }) => (
-        <TouchableOpacity
-            style={styles.item}
-            onPress={() => navigation.navigate('HomeDetails', { item: item })}>
-            <Text style={[styles.text, { color: theme.color }]}>{item.idPais}</Text>
-        </TouchableOpacity>
-    );
-
     return (
-        <View style={styles.container}>
-            <Text style={[styles.title, { color: theme.color }]}>Esta es tu página de favoritos</Text>
-            <FlatList
-                data={favoritos}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.idPais}
-                onEndReachedThreshold={0}
-                onEndReached={() => {
-                    //comprueba si hay más paises para cargar   
-                    if (currentPais < totalPais) {
-                        // Llama a la función getPaises para cargar más países
-                        getPaises(currentPais + 1);
-                        // Actualiza el estado de currentPais para reflejar el cambio en la página actual
-                        setCurrentPais(currentPais + 1);
-                    }
-                }}
-            />
-        </View>
+        //donde esta el text deberia ir <Card key={item.id} item={item} />
+        <FlatList
+            contentContainerStyle={iosContentContainerStyle}
+            data={favoritos}
+            renderItem={({ item }) => (
+                <TouchableOpacity
+                    style={styles.item}
+                    onPress={() => navigation.navigate('HomeDetails', { item: item })}
+                >
+                    <Text style={[styles.text, { color: theme.color }]}>{item.idPais}</Text>
+                </TouchableOpacity>
+            )}
+            onEndReachedThreshold={0}
+            onEndReached={() => {
+                //comprueba si hay más paises para cargar   
+                if (currentPais < totalPais) {
+                    // Llama a la función getPaises para cargar más países
+                    getPaises(currentPais + 1);
+                    // Actualiza el estado de currentPais para reflejar el cambio en la página actual
+                    setCurrentPais(currentPais + 1);
+                }
+            }}
+        />
     );
 }
 
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginVertical: 8,
         marginHorizontal: 16,
-        backgroundColor: '#f9c2ff',
+        backgroundColor: '#c263f9',
         borderRadius: 10,
     },
     text: {
