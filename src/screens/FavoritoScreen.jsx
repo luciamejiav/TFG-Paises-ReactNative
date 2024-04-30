@@ -8,9 +8,7 @@ import { firebaseConfig } from '../config/firebase-config';
 import themeContext from "../theme/themeContext";
 
 import { useNavigation } from "@react-navigation/native";
-import Card from '../components/Card';
-
-
+//import Card from '../components/Card';
 
 
 export default function FavoritosScreen() {
@@ -19,11 +17,12 @@ export default function FavoritosScreen() {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-
+    //Tema
     const theme = useContext(themeContext);
+    //Navegación
     const navigation = useNavigation();
-    const [favoritos, setFavoritos] = useState([]);
 
+    const [favoritos, setFavoritos] = useState([]);
     const [paises, setPaises] = useState([]);
     const [currentPais, setCurrentPais] = useState(1);
     const [totalPais, setTotalPais] = useState(0);
@@ -31,7 +30,7 @@ export default function FavoritosScreen() {
     //gracias a esta herramienta conseguimos que en Android e IOS se vean todos los paises, sin que ninguno se esconda debajo del encabezado
     const iosContentContainerStyle = Platform.OS === 'ios' ? { paddingTop: 128 } : null;
 
-
+    //efecto para obtener la lista de los paises favoritos
     useEffect(() => {
         const obtenerFavoritos = async () => {
             try {
@@ -50,6 +49,7 @@ export default function FavoritosScreen() {
 
         obtenerFavoritos();
     }, []);
+    
 
     //función para obtener la lista de paises
     const getPaises = () => {
@@ -71,7 +71,7 @@ export default function FavoritosScreen() {
             data={favoritos}
             renderItem={({ item }) => (
                 <TouchableOpacity
-                    style={styles.item}
+                    style={styles.cards}
                     onPress={() => navigation.navigate('HomeDetails', { item: item })}
                 >
                     <Text style={[styles.text, { color: theme.color }]}>{item.idPais}</Text>
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
     },
-    item: {
+    cards: {
         padding: 10,
         marginVertical: 8,
         marginHorizontal: 16,
