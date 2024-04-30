@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { getDocs, collection, query, where } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
@@ -26,9 +26,6 @@ const FavoritoScreen = () => {
     const [paises, setPaises] = useState([]);
     const [currentPais, setCurrentPais] = useState(1);
     const [totalPais, setTotalPais] = useState(0);
-
-    //gracias a esta herramienta conseguimos que en Android e IOS se vean todos los paises, sin que ninguno se esconda debajo del encabezado
-    const iosContentContainerStyle = Platform.OS === 'ios' ? { paddingTop: 128 } : null;
 
     //efecto para obtener la lista de los paises favoritos
     useEffect(() => {
@@ -68,7 +65,6 @@ const FavoritoScreen = () => {
         //SI PONGO CARD DA ERROR PNG Y TODO LO RELACIONADO CON LOS DATOS DE LA API 
         //<Card key={item.id} item={item} /> o <Text style={[styles.text, { color: theme.color }]}>{item.idPais}</Text>
         <FlatList
-            contentContainerStyle={iosContentContainerStyle}
             data={favoritos}
             renderItem={({ item }) => (
                 <TouchableOpacity
