@@ -5,7 +5,7 @@ import Stacks from './Stacks'
 import SettingsScreen from '../screens/SettingsScreen';
 import LoginScreen from "../screens/LoginScreen";
 import ChatScreen from "../screens/ChatScreen";
-import FavoritosScreen from "../screens/FavoritoScreen";
+import FavoritoScreen from "../screens/FavoritoScreen";
 
 //establece la estructura general de la aplicación con una barra de pestañas en la parte inferior
 const Tab = createBottomTabNavigator();
@@ -49,7 +49,7 @@ export default function Navigation() {
 
       <Tab.Screen
         name="Favoritos" //nombre que aparece debajo de la casita
-        component={FavoritosScreen} //en stack tenemos la home, la homedetails y los settings
+        component={FavoritoScreen} //en stack tenemos la home, la homedetails y los settings
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="heart" size={size} color={color} />

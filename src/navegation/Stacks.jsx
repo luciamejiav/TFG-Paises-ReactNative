@@ -3,13 +3,14 @@ import React, { useContext } from 'react';
 import HomeScreen from '../screens/HomeScreen';
 import HomeDetails from '../screens/HomeDetails';
 import SettingsScreen from '../screens/SettingsScreen';
+import FavoritoScreen from '../screens/FavoritoScreen';
 import LoginScreen from '../screens/LoginScreen';
 import themeContext from "../theme/themeContext";
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
-import FavoritosScreen from '../screens/FavoritoScreen';
+
 
 
 //define un conjunto de pantallas apiladas para cada pestaña de la barra de pestañas
@@ -64,7 +65,7 @@ export default function Stacks() {
 
       <HomeStackNavigator.Screen
         name="Favoritos"
-        component={FavoritosScreen}
+        component={FavoritoScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="heart" size={size} color={color} /> //cog es el iconos de settings

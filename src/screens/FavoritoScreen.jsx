@@ -8,10 +8,10 @@ import { firebaseConfig } from '../config/firebase-config';
 import themeContext from "../theme/themeContext";
 
 import { useNavigation } from "@react-navigation/native";
-//import Card from '../components/Card';
+import Card from '../components/Card';
 
 
-export default function FavoritosScreen() {
+const FavoritoScreen = () => {
 
     // Inicializar la app de Firebase
     const app = initializeApp(firebaseConfig);
@@ -65,7 +65,7 @@ export default function FavoritosScreen() {
     };
 
     return (
-        //donde esta el text deberia ir <Card key={item.id} item={item} />
+        //donde esta el text deberia ir <Card key={item.id} item={item} /> o <Text style={[styles.text, { color: theme.color }]}>{item.idPais}</Text>
         <FlatList
             contentContainerStyle={iosContentContainerStyle}
             data={favoritos}
@@ -115,3 +115,5 @@ const styles = StyleSheet.create({
         margin: 8
     },
 });
+
+export default FavoritoScreen;

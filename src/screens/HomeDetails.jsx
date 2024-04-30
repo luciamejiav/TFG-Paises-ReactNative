@@ -159,7 +159,7 @@ export default function HomeDetails({ route }) {
   return (
     <ScrollView>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: item.flags && item.flags.png }} style={styles.image} resizeMode="contain" />
+        <Image source={{ uri: item && item.flags && item.flags.png }} style={styles.image} resizeMode="contain" />
       </View>
       <View style={styles.fav}>
         <FontAwesome
