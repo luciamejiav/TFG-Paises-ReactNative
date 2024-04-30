@@ -65,7 +65,8 @@ const FavoritoScreen = () => {
     };
 
     return (
-        //donde esta el text deberia ir <Card key={item.id} item={item} /> o <Text style={[styles.text, { color: theme.color }]}>{item.idPais}</Text>
+        //SI PONGO CARD DA ERROR PNG Y TODO LO RELACIONADO CON LOS DATOS DE LA API 
+        //<Card key={item.id} item={item} /> o <Text style={[styles.text, { color: theme.color }]}>{item.idPais}</Text>
         <FlatList
             contentContainerStyle={iosContentContainerStyle}
             data={favoritos}
