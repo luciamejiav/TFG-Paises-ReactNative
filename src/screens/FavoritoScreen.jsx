@@ -46,7 +46,7 @@ const FavoritoScreen = () => {
 
         obtenerFavoritos();
     }, []);
-    
+
 
     //función para obtener la lista de paises
     const getPaises = () => {
@@ -71,7 +71,8 @@ const FavoritoScreen = () => {
                     style={styles.cards}
                     onPress={() => navigation.navigate('HomeDetails', { item: item })}
                 >
-                    <Text style={[styles.text, { color: theme.color }]}>{item.idPais}</Text>
+
+<Card key={item.id} item={item} />
                 </TouchableOpacity>
             )}
             onEndReachedThreshold={0}
