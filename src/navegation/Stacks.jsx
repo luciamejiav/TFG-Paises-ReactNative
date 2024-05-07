@@ -91,14 +91,13 @@ export default function Stacks() {
             fontSize: 25, // Tamaño de la fuente del título
           },
           headerBackTitleVisible: false, // Quita el título que aparece al lado de la flecha de volver
-          headerShown: true, //para que aparezca el header con el nombre
-          headerBackVisible: false, //eliminamos la flecha que viene por defecto para poder personalizar el color
+          headerBackVisible: false, //eliminamos la flecha que viene por defecto para poder personalizarla
           headerLeft: () => ( // para que la flecha cambie de color según el tema (oscuro/claro), hacemos lo siguiente
             <MaterialCommunityIcons
               name="arrow-left"
               size={24}
               color={theme.color} // Utiliza el color del tema para la flecha de retroceso
-              onPress={() => navigation.goBack(FavoritoScreen)} //al pulsar volvemos a la home
+              onPress={() => navigation.navigate('Favoritos')} //al pulsar volvemos a favoritos
               style={{ marginLeft: 10, marginRight: 66 }}
             />
           ),
