@@ -46,11 +46,10 @@ export default function FavDetails({ route }) {
         currenciesName.push(`${item.datos.currencies[currency].name} ${item.datos.currencies[currency].symbol}`); //sacamos el nombre de la moneda que se usa en ese país junto al símbolo
     }
 
-    const languagesName = Array.isArray(item.datos.languages) ? item.datos.languages : Object.values(item.datos.languages);
-
-    for (const language in item.datos.languages) {
-        languagesName.push(`${item.datos.languages[language]}`); //sacamos todos los idiomas que se hablan en un país
-    }
+    const languagesName = []
+  for (const language in item.datos.languages) {
+    languagesName.push(`${item.datos.languages[language]}`); //sacamos todos los idiomas que se hablan en un país
+  }
 
     //con esto mostramos los datos que queremos de la api en la pantalla de details
     //usamos .join('\n') para concatenar con un salto de linea y .join(', ') para separar por coma y espacio

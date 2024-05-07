@@ -49,7 +49,7 @@ export default function HomeDetails({ route }) {
     currenciesName.push(`${item.currencies[currency].name} ${item.currencies[currency].symbol}`); //sacamos el nombre de la moneda que se usa en ese país junto al símbolo
   }
 
-  const languagesName = Array.isArray(item.languages) ? item.languages : Object.values(item.languages);
+  const languagesName = []
   for (const language in item.languages) {
     languagesName.push(`${item.languages[language]}`); //sacamos todos los idiomas que se hablan en un país
   }
