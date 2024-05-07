@@ -9,6 +9,7 @@ import themeContext from "../theme/themeContext";
 
 import { useNavigation } from "@react-navigation/native";
 import Card from '../components/Card';
+import { getPaisesAll } from '../services/PaisesAPI';
 
 
 const FavoritoScreen = () => {
@@ -27,23 +28,22 @@ const FavoritoScreen = () => {
     const [currentPais, setCurrentPais] = useState(1);
     const [totalPais, setTotalPais] = useState(0);
 
+    const obtenerFavoritos = async () => {
+                try {
+                    const favoritosSnapshot = await getDocs(
+                        query(
+                            collection(db, 'favoritos'),
+                            where("idUser", "==", auth.currentUser.uid)
+                        )
+                    );
+                    const favoritosData = favoritosSnapshot.docs.map(doc => doc.data());
+                    setFavoritos(favoritosData);
+                } catch (error) {
+                    console.error("Error al obtener favoritos:", error);
+                }
+            };
     //efecto para obtener la lista de los paises favoritos
     useEffect(() => {
-        const obtenerFavoritos = async () => {
-            try {
-                const favoritosSnapshot = await getDocs(
-                    query(
-                        collection(db, 'favoritos'),
-                        where("idUser", "==", auth.currentUser.uid) // Suponiendo que tengas una variable auth que almacena el usuario actual
-                    )
-                );
-                const favoritosData = favoritosSnapshot.docs.map(doc => doc.data());
-                setFavoritos(favoritosData);
-            } catch (error) {
-                console.error("Error al obtener favoritos:", error);
-            }
-        };
-
         obtenerFavoritos();
     }, []);
 
@@ -61,6 +61,10 @@ const FavoritoScreen = () => {
             .catch(err => console.log("error", err));
     };
 
+    useEffect(() => {
+        getPaises();
+    }, [favoritos]);
+
     return (
         //SI PONGO CARD DA ERROR PNG Y TODO LO RELACIONADO CON LOS DATOS DE LA API 
         //<Card key={item.id} item={item} /> o <Text style={[styles.text, { color: theme.color }]}>{item.idPais}</Text>
@@ -69,10 +73,9 @@ const FavoritoScreen = () => {
             renderItem={({ item }) => (
                 <TouchableOpacity
                     style={styles.cards}
-                    onPress={() => navigation.navigate('HomeDetails', { item: item })}
+                    onPress={() => navigation.navigate('FavDetails', { item: item })}
                 >
-
-<Card key={item.id} item={item} />
+                    <Text style={[styles.text, { color: theme.color }]}>{item.idPais}</Text>
                 </TouchableOpacity>
             )}
             onEndReachedThreshold={0}

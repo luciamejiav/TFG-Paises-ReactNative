@@ -49,7 +49,7 @@ export default function HomeDetails({ route }) {
     currenciesName.push(`${item.currencies[currency].name} ${item.currencies[currency].symbol}`); //sacamos el nombre de la moneda que se usa en ese país junto al símbolo
   }
 
-  const languagesName = []
+  const languagesName = Array.isArray(item.languages) ? item.languages : Object.values(item.languages);
   for (const language in item.languages) {
     languagesName.push(`${item.languages[language]}`); //sacamos todos los idiomas que se hablan en un país
   }
@@ -61,13 +61,14 @@ export default function HomeDetails({ route }) {
         toastRef.current.show("Para añadir a favoritos debe estar Logueado", 3000);
         return;
       }
-  
+
       console.log("añadiendo a favoritos");
       const response = await addDoc(favouriteRef, {
         idUser: auth.currentUser.uid,
-        idPais: item.cca3
+        idPais: item.cca3,
+        datos: item
       });
-  
+
       setIsFavourite(true);
       toastRef.current.show("Añadido a favoritos", 3000);
     } catch (error) {
@@ -83,7 +84,8 @@ export default function HomeDetails({ route }) {
       const querySnapshot = await getDocs(query
         (collection(db, 'favoritos'),
           where("idPais", "==", idPais),
-          where("idUser", "==", auth.currentUser.uid)
+          where("idUser", "==", auth.currentUser.uid),
+          where("datos", "==", item)
         ));
 
       resultado.isFavourite = !querySnapshot.empty;
@@ -159,7 +161,7 @@ export default function HomeDetails({ route }) {
   return (
     <ScrollView>
       <View style={styles.imageContainer}>
-      <Image source={{ uri: item.flags.png }} style={styles.image} resizeMode="contain" />
+        <Image source={{ uri: item.flags.png }} style={styles.image} resizeMode="contain" />
 
       </View>
       <View style={styles.fav}>
@@ -200,7 +202,7 @@ export default function HomeDetails({ route }) {
 
         <Text style={[styles.text, { color: theme.color }]}>
           <Text style={styles.boldText}>• Idiomas: </Text>
-          {Array.isArray(item.languages) ? item.languages.join(', ') : ''}
+          {languagesName.join(', ')}
         </Text>
 
         <Text style={[styles.text, { color: theme.color }]}>
