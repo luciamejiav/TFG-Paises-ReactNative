@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Linking, ScrollView } from 'react-native';
 import Toast from 'react-native-easy-toast';
+import FontAwesome from "react-native-vector-icons/FontAwesome"; //icono favoritos
+
 
 import themeContext from "../theme/themeContext";
 import firebase from 'firebase/app';
@@ -16,7 +18,7 @@ export default function FavDetails({ route }) {
 
     const { item } = route.params; //parámetros de la ruta
     const [paises, setPaises] = useState(null);
-    const [isFavourite, setIsFavourite] = useState(false); //lo iniciamos como no favorito
+    const [isFavourite, setIsFavourite] = useState(true); //lo iniciamos como no favorito
     const [userLogged, setUserLogged] = useState(false);
     const toastRef = useRef();
 
@@ -31,13 +33,114 @@ export default function FavDetails({ route }) {
     })
 
     //si no hay datos muestra un mensaje de cargando 
-    if (!item) {
+    if (!item.datos) {
         return (
             <View>
                 <Text>Loading...</Text>
             </View>
         );
     }
+
+    
+  //añadir a favoritos
+  const addFavourite = async () => {
+    try {
+      if (!userLogged) {
+        toastRef.current.show("Para añadir a favoritos debe estar Logueado", 3000);
+        return;
+      }
+
+      console.log("añadiendo a favoritos");
+      const response = await addDoc(favouriteRef, {
+        idUser: auth.currentUser.uid,
+        idPais: item.cca3,
+        datos: item
+      });
+
+      setIsFavourite(true);
+      toastRef.current.show("Añadido a favoritos", 3000);
+    } catch (error) {
+      console.error("Error al añadir a favoritos:", error);
+      toastRef.current.show("No se ha podido añadir a favoritos, intentalo más tarde", 3000);
+    }
+
+  }
+  //accion añadir a favoritos
+  const getIsFavourite = async (idPais) => {
+    const resultado = { statusResponse: true, error: null, isFavourite: false }
+    try {
+      const querySnapshot = await getDocs(query
+        (collection(db, 'favoritos'),
+          where("idPais", "==", idPais),
+          where("idUser", "==", auth.currentUser.uid),
+          where("datos", "==", item)
+        ));
+
+      resultado.isFavourite = !querySnapshot.empty;
+    } catch (error) {
+      resultado.statusResponse = false
+      resultado.error = error
+      console.log("Error al obtener favoritos: " + error)
+    }
+    console.log("Resultado añadir:" + resultado)
+    return resultado
+  }
+
+  //efecto para añadir a favoritos
+  useEffect(() => {
+    (async () => {
+      try {
+        if (userLogged && item.cca3) {
+          const response = await getIsFavourite(item.cca3)
+          if (response.statusResponse) {
+            response.statusResponse && setIsFavourite(response.isFavourite)
+          }
+        }
+      } catch (error) {
+        console.error("Error al obtener favoritos:", error);
+      }
+    })()
+  }, [userLogged, item.cca3])
+
+  //eliminar de favoritos
+  const removeFavourite = async () => {
+    if (!userLogged) {
+      toastRef.current.show("Para eliminar de favoritos debe estar Logueado", 3000)
+      return
+    }
+
+    console.log("eliminando de favoritos");
+    const response = await eliminarFavorito(item.datos.cca3)
+
+    if (response.statusResponse) {
+      setIsFavourite(false)
+      toastRef.current.show("Eliminado de favoritos", 3000)
+    } else {
+      toastRef.current.show("No se ha podido eliminar de favoritos, intentalo más tarde", 3000)
+    }
+  }
+
+  //Accion eliminar 
+  const eliminarFavorito = async (idPais) => {
+    const resultado = { statusResponse: true, error: null }
+    try {
+      const querySnapshot = await getDocs(query
+        (collection(db, 'favoritos'),
+          where("idPais", "==", idPais),
+          where("idUser", "==", auth.currentUser.uid)
+        ));
+      querySnapshot.forEach(async (doc) => {
+        // Eliminar el documento actual
+        await deleteDoc(doc.ref);
+      });
+    } catch (error) {
+      resultado.statusResponse = false
+      resultado.error = error
+      console.log("Error al eliminar favoritos: " + error)
+    }
+    console.log("Resultado eliminar " + resultado)
+    return resultado
+  }
 
     // bucles para que salga todo lo que tienen dentro currencies y languages
     //push agrega elementos al final del array (en este caso de currenciesName o languagesName)
@@ -60,6 +163,17 @@ export default function FavDetails({ route }) {
                 <Image source={{ uri: item.datos.flags.png }} style={styles.image} resizeMode="contain" />
 
             </View>
+
+            <View style={styles.fav}>
+        <FontAwesome
+          type="material-community"
+          name={isFavourite ? "heart" : "heart-o"}
+          onPress={isFavourite ? removeFavourite : addFavourite}
+          size={34}
+          color="#000000"
+          underlayColor="transparent" //color de atrás
+        />
+      </View>
 
             <Text style={[styles.textCommon, { color: theme.color }]}>{item.datos.name.common}</Text>
 
@@ -151,5 +265,15 @@ const styles = StyleSheet.create({
     },
     ml: {
         marginLeft: 14
-    }
+    }, 
+    
+  fav: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    backgroundColor: "#FAF2FC",
+    borderBottomLeftRadius: 20,
+    padding: 5,
+    paddingLeft: 15
+  }
 });

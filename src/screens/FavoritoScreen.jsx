@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { getDocs, collection, query, where } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
@@ -29,19 +29,19 @@ const FavoritoScreen = () => {
     const [totalPais, setTotalPais] = useState(0);
 
     const obtenerFavoritos = async () => {
-                try {
-                    const favoritosSnapshot = await getDocs(
-                        query(
-                            collection(db, 'favoritos'),
-                            where("idUser", "==", auth.currentUser.uid)
-                        )
-                    );
-                    const favoritosData = favoritosSnapshot.docs.map(doc => doc.data());
-                    setFavoritos(favoritosData);
-                } catch (error) {
-                    console.error("Error al obtener favoritos:", error);
-                }
-            };
+        try {
+            const favoritosSnapshot = await getDocs(
+                query(
+                    collection(db, 'favoritos'),
+                    where("idUser", "==", auth.currentUser.uid)
+                )
+            );
+            const favoritosData = favoritosSnapshot.docs.map(doc => doc.data());
+            setFavoritos(favoritosData);
+        } catch (error) {
+            console.error("Error al obtener favoritos:", error);
+        }
+    };
     //efecto para obtener la lista de los paises favoritos
     useEffect(() => {
         obtenerFavoritos();
@@ -72,10 +72,14 @@ const FavoritoScreen = () => {
             data={favoritos}
             renderItem={({ item }) => (
                 <TouchableOpacity
-                    style={styles.cards}
                     onPress={() => navigation.navigate('FavDetails', { item: item })}
                 >
-                    <Text style={[styles.text, { color: theme.color }]}>{item.idPais}</Text>
+                    <View style={styles.row}>
+                        <Image source={{ uri: item.datos.flags.png }} style={[styles.image, { backgroundColor: theme.backgroundColor }]} resizeMode="contain" />
+                        <View style={styles.column}>
+                            <Text style={[styles.text, { color: theme.color }]}>{item.datos.name.common}</Text>
+                        </View>
+                    </View>
                 </TouchableOpacity>
             )}
             onEndReachedThreshold={0}
@@ -103,18 +107,35 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
     },
-    cards: {
-        padding: 10,
-        marginVertical: 8,
-        marginHorizontal: 16,
-        backgroundColor: '#c263f9',
-        borderRadius: 10,
-    },
     text: {
         fontWeight: "bold",
         fontSize: 18,
         margin: 8
+    }, image: {
+        width: 80,
+        height: 80,
+        marginLeft: 10
     },
+    row: {
+        flex: 1,
+        flexDirection: "row", padding: 5,
+        marginVertical: 8,
+        marginHorizontal: 16,
+        backgroundColor: '#c263f9',
+        borderRadius: 10,
+
+    },
+    column: {
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "flex-start"
+    },
+    text: {
+        fontWeight: "bold",
+        fontSize: 18,
+        marginVertical: 27,
+        marginLeft: 20
+    }
 });
 
 export default FavoritoScreen;

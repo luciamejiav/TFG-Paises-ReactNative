@@ -4,10 +4,10 @@
     "slug": "TFG-Paises",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/img/logo2.gif",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/img/logo.avif",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

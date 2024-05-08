@@ -68,7 +68,7 @@ export default function Stacks() {
         component={FavoritoScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="heart" size={size} color={color} /> //cog es el iconos de settings
+            <MaterialCommunityIcons name="heart" size={size} color={color} />
           ), headerStyle: {
             height: 80, // Ajusta el tamaño de la barra de navegación
             backgroundColor: '#c263f9', // Color de fondo de la barra de navegación
