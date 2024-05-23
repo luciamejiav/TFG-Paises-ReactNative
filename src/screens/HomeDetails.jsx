@@ -6,7 +6,6 @@ import FontAwesome from "react-native-vector-icons/FontAwesome"; //icono favorit
 
 
 import themeContext from "../theme/themeContext";
-import firebase from 'firebase/app';
 import { firebaseConfig } from '../config/firebase-config';
 import { getAuth } from 'firebase/auth';
 import { addDoc, collection, getFirestore, getDocs, query, where, deleteDoc } from 'firebase/firestore';
@@ -18,7 +17,6 @@ export default function HomeDetails({ route }) {
   const theme = useContext(themeContext);
 
   const { item } = route.params; //parámetros de la ruta
-  const [paises, setPaises] = useState(null);
   const [isFavourite, setIsFavourite] = useState(false); //lo iniciamos como no favorito
   const [userLogged, setUserLogged] = useState(false);
   const toastRef = useRef();
@@ -27,7 +25,7 @@ export default function HomeDetails({ route }) {
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  const favouriteRef = collection(db, 'favoritos'); // Referencia a la colección 'favourites'
+  const favouriteRef = collection(db, 'favoritos'); // Referencia a la colección 'favoritos'
 
   auth.onAuthStateChanged(user => {
     user ? setUserLogged(true) : setUserLogged(false)//comprobar si el usuario esta logueado

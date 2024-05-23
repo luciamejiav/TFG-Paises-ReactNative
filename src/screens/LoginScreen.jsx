@@ -114,8 +114,6 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50,
-        //borderColor: '#fff',
-        //borderWidth: 1,
         marginVertical: 30
     },
     texto: {
@@ -148,5 +146,3 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
 });
-
-//export default LoginScreen;

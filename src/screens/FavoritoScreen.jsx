@@ -8,7 +8,6 @@ import { firebaseConfig } from '../config/firebase-config';
 import themeContext from "../theme/themeContext";
 
 import { useNavigation } from "@react-navigation/native";
-import Card from '../components/Card';
 import { getPaisesAll } from '../services/PaisesAPI';
 
 
@@ -66,8 +65,6 @@ const FavoritoScreen = () => {
     }, [favoritos]);
 
     return (
-        //SI PONGO CARD DA ERROR PNG Y TODO LO RELACIONADO CON LOS DATOS DE LA API 
-        //<Card key={item.id} item={item} /> o <Text style={[styles.text, { color: theme.color }]}>{item.idPais}</Text>
         <FlatList
             data={favoritos}
             renderItem={({ item }) => (

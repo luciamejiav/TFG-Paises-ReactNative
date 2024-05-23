@@ -1,7 +1,6 @@
 import { DefaultTheme, NavigationContainer, DarkTheme } from '@react-navigation/native';
 import MyTabs from './src/navegation/MyTabs';
 import AuthStack from './src/navegation/AuthStack';
-import firebase from 'firebase/app'; // Importa Firebase
 import 'firebase/auth';
 import { firebaseConfig } from './src/config/firebase-config'; // Importa la configuración de Firebase
 import { initializeApp } from 'firebase/app';

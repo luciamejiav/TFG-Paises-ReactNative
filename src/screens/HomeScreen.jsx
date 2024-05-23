@@ -6,7 +6,6 @@ import { useNavigation } from "@react-navigation/native";
 import themeContext from "../theme/themeContext";
 
 const HomeScreen = () => {
-  //est ados para gestionar lo necesario
   const [paises, setPaises] = useState([]);
   const [currentPais, setCurrentPais] = useState(1);
   const [totalPais, setTotalPais] = useState(0);
@@ -106,31 +105,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18
   },
-  /*
-  searchInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor:"white",
-    borderRadius: 5,
-    margin: 10,
-    padding: 10,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 10,
-    padding: 5,
-    borderRadius: 5,
-    borderWidth: 3,
-    borderColor: '#b2e2f2',
-  },
-  searchIcon: {
-    width: 25,
-    height: 25,
-    marginRight: 10, 
-    marginLeft: 10,
-  }*/
 });
 
 export default HomeScreen;

@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Stacks from './Stacks'
 import SettingsScreen from '../screens/SettingsScreen';
-import LoginScreen from "../screens/LoginScreen";
 import ChatScreen from "../screens/ChatScreen";
 import FavoritoScreen from "../screens/FavoritoScreen";
 
@@ -48,8 +47,8 @@ export default function Navigation() {
       />
 
       <Tab.Screen
-        name="Favoritos" //nombre que aparece debajo de la casita
-        component={FavoritoScreen} //en stack tenemos la home, la homedetails y los settings
+        name="Favoritos" //nombre que aparece debajo 
+        component={FavoritoScreen} 
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="heart" size={size} color={color} />
@@ -84,18 +83,4 @@ export default function Navigation() {
 
 
   );
-  /*
-    COMO PONEMOS INICIO DE SESION AL ABRIR LA APP NO LO PONEMOS EN LA BARRA DE NAVEGACION    
-    
-        <Tab.Screen
-          name="Usuario" //nombre que aparece debajo de la casita
-          component={LoginScreen} //en stack tenemos la home, la homedetails y los settings
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="account-circle" size={size} color={color} />
-            ),
-            headerShown: false //para que no aparezca el header con el nombre
-          }}
-        />
-   */
 }
