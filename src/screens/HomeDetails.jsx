@@ -30,7 +30,7 @@ export default function HomeDetails({ route }) {
         setUserLogged(true);
       } else {
         setUserLogged(false);
-        setIsFavourite(false); // Reset favorite state if user logs out
+        setIsFavourite(false); 
       }
     });
 
@@ -44,9 +44,9 @@ export default function HomeDetails({ route }) {
         if (response.statusResponse) {
           setIsFavourite(response.isFavourite);
         }
-        setLoading(false); // Set loading to false after checking favorite status
+        setLoading(false); 
       } else {
-        setLoading(false); // Set loading to false if not logged in
+        setLoading(false); 
       }
     };
 
