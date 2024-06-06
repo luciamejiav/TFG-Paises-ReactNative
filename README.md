@@ -18,6 +18,8 @@ Con el menú inferior podemos acceder al `Chat`. Este sirve para que todos los u
 
 Si seguimos con el menú la siguiente pantalla es la `pantalla de favoritos`, en la que se van guardando los que marcamos en la segunda pantalla. Solo aparecen los nuestros, para ello iniciamos sesión. Para guardar los favoritos de cada persona usamos Firebase.
 
+Si pulsamos uno de los paises favoritos llegamos a la `pantalla de detalles de favoritos`, en la que vemos los mismo detalles que en la pantalla de información pero esta vez el corazón está marcado y solo podemos elimiar el país desde ahí.
+
 Por último, está la `pantalla de ajustes`. En ella encontramos un switch que activa o desactiva el modo oscuro.
 
 
