@@ -43,4 +43,4 @@ Una vez que hemos instalado todo toca iniciarlo.
 
 Cuando lo hayamos iniciado aparecerá un código QR para poder iniciarlo con el móvil. Esto se ejecutará solo si tenemos la aplicación de Expo, en Android escaneamos el código desde la aplicación y en IOS se escanea desde la cámara del móvil que te deriva a la aplicación.
 
-En el caso que queramos inicarlo mediante un emulador deberemos tenerlo previamente instalado.
+En el caso que queramos iniciarlo mediante un emulador deberemos tenerlo previamente instalado.
